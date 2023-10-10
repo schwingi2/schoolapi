@@ -1,7 +1,7 @@
 # Create your views here.
-from .models import Sitznachbar
+from .models import Sitznachbar, Hobby
 from django.contrib.auth.models import User
-from .serializers import SitznachbarSerializer
+from .serializers import SitznachbarSerializer, HobbySerializer
 from rest_framework import generics, permissions, status
 from rest_framework.decorators import api_view  
 from rest_framework.response import Response  
@@ -61,6 +61,14 @@ class SitznachbarViewSet(viewsets.ModelViewSet):
     queryset = Sitznachbar.objects.all()
     serializer_class = SitznachbarSerializer
     #permission_classes = [BasePermission,]
+    permission_classes = [IsOwnerOrReadOnly,]
+    def perform_create(self, serializer):  # new
+        serializer.save(owner=self.request.user)
+
+class HobbyViewSet(viewsets.ModelViewSet):
+
+    queryset = Hobby.objects.all()
+    serializer_class = HobbySerializer
     permission_classes = [IsOwnerOrReadOnly,]
     def perform_create(self, serializer):  # new
         serializer.save(owner=self.request.user)

@@ -32,3 +32,17 @@ class Sitznachbar(models.Model):
         """
         super().save(*args, **kwargs)
 
+class Hobby(models.Model):
+    """
+    Model for storing Hobbies.
+    """
+    hobby_desc = models.CharField(max_length=100)
+    sitznachbar = models.ManyToManyField(Sitznachbar)
+    #EXAMPLE: album = models.ForeignKey(Album, related_name='tracks', on_delete=models.CASCADE)
+
+    def save(self, *args, **kwargs):
+        """ 
+        Use the `pygments` library to create a highlighted HTML
+        representation of the Sitznachbar.
+        """
+        super().save(*args, **kwargs)
